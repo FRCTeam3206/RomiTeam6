@@ -65,17 +65,22 @@ public class Robot extends TimedRobot {
 
     m_drivetrain.resetEncoders();
   }
-
+  public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
+  }
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
+
         break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
+      //circle drive very good stuff yes
+        if(m_drivetrain.getRightDistanceInch() <= 72 && m_drivetrain.getLeftDistanceInch() <= 72) {
+          m_drivetrain.tankDrive(0.5, 1.0);
+        }
         break;
     }
   }
