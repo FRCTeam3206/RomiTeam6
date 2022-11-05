@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private final RomiDrivetrain m_drivetrain = new RomiDrivetrain();
+  private final RomiGyro m_gyro = new RomiGyro();
 
   // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
@@ -65,8 +66,6 @@ public class Robot extends TimedRobot {
 
     m_drivetrain.resetEncoders();
   }
-  public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-  }
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
@@ -99,8 +98,17 @@ public class Robot extends TimedRobot {
     // like a coordinate grid, which allows us to just extract the x or y axis information from it.
     double forwardSpeed = -controller.getRawAxis(1);
     double turnSpeed = -controller.getRawAxis(0);
+    double turnAngle = m_gyro.getAngleY();
 
-    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
+    double changeInTurn = 0;
+    
+    if (Math.abs(turnAngle) < 0.1) {
+      changeInTurn = turnAngle * 2;
+    }
+    //System.out.println(changeInTurn);
+    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed + changeInTurn);
+    //System.out.println(forwardSpeed);
+    //System.out.println(turnSpeed);
   }
 
   /** This function is called once when the robot is disabled. */
