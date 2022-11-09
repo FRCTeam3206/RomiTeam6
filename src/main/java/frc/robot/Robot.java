@@ -96,17 +96,21 @@ public class Robot extends TimedRobot {
     // The getRawAxis method allows one to get the value an axis is on
     // We use axis to get stuff from the joysticks, as it is easy to represent a joystick
     // like a coordinate grid, which allows us to just extract the x or y axis information from it.
-    double forwardSpeed = -controller.getRawAxis(1);
-    double turnSpeed = -controller.getRawAxis(0);
+    double forwardSpeed = controller.getRawAxis(1);
+    double turnSpeed = controller.getRawAxis(0);
     double turnAngle = m_gyro.getAngleY();
 
     double changeInTurn = 0;
     
     if (Math.abs(turnAngle) < 0.1) {
-      changeInTurn = turnAngle * 2;
+      changeInTurn = turnAngle * 150;
     }
     //System.out.println(changeInTurn);
-    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed + changeInTurn);
+    if (forwardSpeed > 0) {
+      m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed + changeInTurn);
+    } else {
+      m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed - changeInTurn);
+    }
     //System.out.println(forwardSpeed);
     //System.out.println(turnSpeed);
   }
