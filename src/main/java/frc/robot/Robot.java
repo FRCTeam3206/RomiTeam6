@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.cscore.*;
-
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -81,9 +78,8 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
-      //circle drive very good stuff yes
-        if(m_drivetrain.getRightDistanceInch() <= 72 && m_drivetrain.getLeftDistanceInch() <= 72) {
-          m_drivetrain.tankDrive(0.5, 1.0);
+       // Put defult auto code here
+
         }
         break;
     }
