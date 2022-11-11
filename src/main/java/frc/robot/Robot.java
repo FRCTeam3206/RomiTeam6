@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
     double changeInTurn = 0;
     
     if (Math.abs(turnAngle) < 0.1) {
-      changeInTurn = turnAngle * 150;
+      changeInTurn = turnAngle * 50;
     }
     //System.out.println(changeInTurn);
     if (forwardSpeed > 0) {
