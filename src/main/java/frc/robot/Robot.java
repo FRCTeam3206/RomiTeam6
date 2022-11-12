@@ -24,10 +24,12 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private final RomiDrivetrain m_drivetrain = new RomiDrivetrain();
+  private final RomiGyro m_gyro = new RomiGyro();
 
   // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
   private Servo servo1 = new Servo(2);
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -89,6 +91,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   /** This function is called periodically during operator control. */
+
+  double first_press_angle;
+
   @Override
   public void teleopPeriodic() {
     // WARN: The controller code is written based on my controller, and as such may need to be changed
@@ -96,20 +101,31 @@ public class Robot extends TimedRobot {
     // The getRawAxis method allows one to get the value an axis is on
     // We use axis to get stuff from the joysticks, as it is easy to represent a joystick
     // like a coordinate grid, which allows us to just extract the x or y axis information from it.
-    double forwardSpeed = -controller.getRawAxis(1);
-    double turnSpeed = -controller.getRawAxis(0);
+    double forwardSpeed = controller.getRawAxis(1);
+    double turnSpeed = controller.getRawAxis(0);
 
-    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
-
-    boolean button_pressed = controller.getRawButton(1);
-    //System.out.println(button_pressed);
-    if (button_pressed) {
+    boolean servo_button_pressed = controller.getRawButton(1);
+    if (servo_button_pressed) {
       servo1.set(1);
     } else {
       servo1.set(0);
     }
-  }
+    boolean drive_straight_button_pressed_down = controller.getRawButtonPressed(2);
+    boolean drive_straight_button_pressed = controller.getRawButton(2);
 
+    if (drive_straight_button_pressed) {
+      first_press_angle = m_gyro.getAngleZ();
+    }
+
+    if (drive_straight_button_pressed_down) {
+      double change_in_turn = first_press_angle * 1;
+      double current_angle = 
+      //Angle that you are at - the angle that you want to be at 
+      //multiply this by one constant 
+    } 
+  
+    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
+  }
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {}
