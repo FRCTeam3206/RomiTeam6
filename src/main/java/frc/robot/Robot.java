@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,7 +27,7 @@ public class Robot extends TimedRobot {
 
   // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
-
+  private Servo servo1 = new Servo(2);
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -101,6 +102,14 @@ public class Robot extends TimedRobot {
     double turnSpeed = -controller.getRawAxis(0);
 
     m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
+
+    boolean button_pressed = controller.getRawButton(1);
+    //System.out.println(button_pressed);
+    if (button_pressed) {
+      servo1.set(1);
+    } else {
+      servo1.set(0);
+    }
   }
 
   /** This function is called once when the robot is disabled. */
