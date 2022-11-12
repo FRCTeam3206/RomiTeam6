@@ -80,10 +80,8 @@ public class Robot extends TimedRobot {
       case kDefaultAuto:
       default:
        // Put defult auto code here
-
+       break;
         }
-        break;
-    }
   }
 
   /** This function is called once when teleop is enabled. */
