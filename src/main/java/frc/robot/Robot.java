@@ -91,25 +91,23 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
     // WARN: The controller code is written based on my controller, and as such may need to be changed
 
     // The getRawAxis method allows one to get the value an axis is on
     // We use axis to get stuff from the joysticks, as it is easy to represent a joystick
     // like a coordinate grid, which allows us to just extract the x or y axis information from it.
-    double forwardSpeed = controller.getRawAxis(1);
-    double turnSpeed = controller.getRawAxis(0);
-    double turnAngle = m_gyro.getAngleY();
-
+    double turnAngle = -m_gyro.getAngleX();
     double changeInTurn = 0;
     
     if (Math.abs(turnAngle) < 0.1) {
-      changeInTurn = turnAngle * 50;
+      changeInTurn = turnAngle * 1;
     }
     //System.out.println(changeInTurn);
-    if (forwardSpeed > 0) {
-      m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed + changeInTurn);
+    if (-controller.getRawAxis(1) > 0) {
+      m_drivetrain.arcadeDrive(controller.getRawAxis(1), controller.getRawAxis(0) + changeInTurn);
     } else {
-      m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed - changeInTurn);
+      m_drivetrain.arcadeDrive(controller.getRawAxis(1), controller.getRawAxis(0) - changeInTurn);
     }
     //System.out.println(forwardSpeed);
     //System.out.println(turnSpeed);
