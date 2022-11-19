@@ -119,7 +119,8 @@ public class Robot extends TimedRobot {
 
     if (drive_straight_button_pressed_down) {
       double change_in_turn = first_press_angle * 1;
-      double current_angle = 
+      double current_angle = m_gyro.getAngleZ() - change_in_turn;
+      m_drivetrain.arcadeDrive(forwardSpeed, current_angle);
       //Angle that you are at - the angle that you want to be at 
       //multiply this by one constant 
     } 
