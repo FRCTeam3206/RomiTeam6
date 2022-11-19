@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
   // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
   private Servo servo1 = new Servo(2);
+  public double adjConstant = 0;
   
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putNumber("Adjustmant Constant", adjConstant);
   }
 
   /**
@@ -113,16 +115,15 @@ public class Robot extends TimedRobot {
     boolean drive_straight_button_pressed_down = controller.getRawButtonPressed(2);
     boolean drive_straight_button_pressed = controller.getRawButton(2);
 
-    if (drive_straight_button_pressed) {
-      first_press_angle = m_gyro.getAngleZ();
-    }
-
     if (drive_straight_button_pressed_down) {
       first_press_angle = m_gyro.getAngleZ();
-      double change_in_turn = first_press_angle * 1000;
-      double current_angle = m_gyro.getAngleZ() - change_in_turn;
-      m_drivetrain.arcadeDrive(forwardSpeed, current_angle );
+      System.out.println(1);
+    }
 
+    if (drive_straight_button_pressed) {
+      double change_in_turn = first_press_angle * SmartDashboard.getNumber("Adjustmant Constant", 1);
+      double current_angle = m_gyro.getAngleZ() - change_in_turn;
+      m_drivetrain.arcadeDrive(forwardSpeed, current_angle);
       //Angle that you are at - the angle that you want to be at 
       //multiply this by one constant 
     } else {
