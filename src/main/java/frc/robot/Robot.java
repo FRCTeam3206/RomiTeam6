@@ -12,9 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the
+ * name of this class or
+ * the package after creating this project, you must also update the
+ * build.gradle file in the
  * project.
  */
 public class Robot extends TimedRobot {
@@ -26,13 +29,15 @@ public class Robot extends TimedRobot {
   private final RomiDrivetrain m_drivetrain = new RomiDrivetrain();
   private final RomiGyro m_gyro = new RomiGyro();
 
-  // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
+  // This line creates a new controller object, which we can use to get inputs
+  // from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
   private Servo servo1 = new Servo(2);
   public double adjConstant = 0;
-  
+
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function is run when the robot is first started up and should be used
+   * for any
    * initialization code.
    */
   @Override
@@ -44,23 +49,34 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+   * This function is called every 20 ms, no matter the mode. Use this for items
+   * like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+  }
 
   /**
-   * This autonomous (along with the chooser code above) shows how to select between different
-   * autonomous modes using the dashboard. The sendable chooser code works with the Java
-   * SmartDashboard. If you prefer the LabVIEW Dashboard, remove all of the chooser code and
-   * uncomment the getString line to get the auto name from the text box below the Gyro
+   * This autonomous (along with the chooser code above) shows how to select
+   * between different
+   * autonomous modes using the dashboard. The sendable chooser code works with
+   * the Java
+   * SmartDashboard. If you prefer the LabVIEW Dashboard, remove all of the
+   * chooser code and
+   * uncomment the getString line to get the auto name from the text box below the
+   * Gyro
    *
-   * <p>You can add additional auto modes by adding additional comparisons to the switch structure
-   * below with additional strings. If using the SendableChooser make sure to add them to the
+   * <p>
+   * You can add additional auto modes by adding additional comparisons to the
+   * switch structure
+   * below with additional strings. If using the SendableChooser make sure to add
+   * them to the
    * chooser code above as well.
    */
   @Override
@@ -71,9 +87,16 @@ public class Robot extends TimedRobot {
 
     m_drivetrain.resetEncoders();
   }
+
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
   }
+
   /** This function is called periodically during autonomous. */
+
+  // initial state of the robot (each state will have a specicfic function like
+  // state 1 will drive forward)
+  float state = 0;
+
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
@@ -83,14 +106,30 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
-       // Put defult auto code here
-       break;
+        // Put defult auto code here
+        // driving straight
+
+        if (m_drivetrain.getLeftDistanceInch() <= 72) {
+          // driving straight (you can fix the drift of the romi by adjusting the left or
+          // right wheel wheel speed)
+          m_drivetrain.tankDrive(1, 1);
+
         }
+
+        /*
+         * if (m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
+         * 13.5){
+         * m_drivetrain.tankDrive(0.5, -0.5);
+         * }
+         */
+        break;
+    }
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+  }
 
   /** This function is called periodically during operator control. */
 
@@ -105,46 +144,51 @@ public class Robot extends TimedRobot {
     // like a coordinate grid, which allows us to just extract the x or y axis information from it.
     double forwardSpeed = controller.getRawAxis(1);
     double turnSpeed = controller.getRawAxis(0);
+    m_drivetrain.tankDrive(forwardSpeed, turnSpeed);
+    // boolean servo_button_pressed = controller. (1);
+    // if (servo_button_pressed) {  
+    //   servo1.set(1);
+    // } else {
+    //   servo1.set(0);
+    // }
+    // boolean drive_straight_button_pressed_down = controller.getRawButtonPressed(2);
+    // boolean drive_straight_button_pressed = controller.getRawButton(2);
 
-    boolean servo_button_pressed = controller.getRawButton(1);
-    if (servo_button_pressed) {
-      servo1.set(1);
-    } else {
-      servo1.set(0);
-    }
-    boolean drive_straight_button_pressed_down = controller.getRawButtonPressed(2);
-    boolean drive_straight_button_pressed = controller.getRawButton(2);
+    // if (drive_straight_button_pressed_down) {
+    //   first_press_angle = m_gyro.getAngleZ();
+    //   System.out.println(1);
+    // }
 
-    if (drive_straight_button_pressed_down) {
-      first_press_angle = m_gyro.getAngleZ();
-      System.out.println(1);
-    }
-
-    if (drive_straight_button_pressed) {
-      double change_in_turn = first_press_angle * SmartDashboard.getNumber("Adjustmant Constant", 1);
-      double current_angle = m_gyro.getAngleZ() - change_in_turn;
-      m_drivetrain.arcadeDrive(forwardSpeed, current_angle);
-      //Angle that you are at - the angle that you want to be at 
-      //multiply this by one constant 
-    } else {
-      m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
-    }
+    // if (drive_straight_button_pressed) {
+    //   double change_in_turn = first_press_angle * SmartDashboard.getNumber("Adjustmant Constant", 1);
+    //   double current_angle = m_gyro.getAngleZ() - change_in_turn;
+    //   m_drivetrain.arcadeDrive(forwardSpeed, current_angle);
+    //   //Angle that you are at - the angle that you want to be at 
+    //   //multiply this by one constant 
+    // } else {
+    //   m_drivetrain.arcadeDrive(-forwardSpeed, turnSpeed);
+    // }
   
     
   }
+
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   /** This function is called periodically when disabled. */
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override
-  public void testInit() {}
+  public void testInit() {
+  }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 }
