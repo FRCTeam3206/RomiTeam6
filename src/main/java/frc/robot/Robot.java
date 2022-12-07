@@ -99,13 +99,13 @@ public class Robot extends TimedRobot {
   //scanning for blue block
   public void turnaround(){
     if (m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
-    13.5/2){
+    13.5/2 && blueblock not found){
       m_drivetrain.tankDrive(0.5, -0.5);
     }
-    if (m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
-      13.5){
-      m_drivetrain.tankDrive(-0.5, 0.5);
 
+    if (m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
+      13.5 && blue block not found){
+      m_drivetrain.tankDrive(-0.5, 0.5);
     }
   }
 
@@ -136,7 +136,9 @@ public class Robot extends TimedRobot {
          if (state ==2){
            //calibrate gyro
            turnaround();
+          if(m_gyro.getAngleX()>0){
 
+          }
          }
         
         break;
