@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
     double forwardSpeed = -controller.getRawAxis(1);
     double turnSpeed = -controller.getRawAxis(0);
 
-    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
+    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed/1.5);
 
     boolean button_pressed = controller.getRawButton(1);
     //System.out.println(button_pressed);
