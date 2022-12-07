@@ -51,6 +51,7 @@ public class RomiGyro {
     return 0.0;
   }
 
+
   /**
    * Get the rate of turn in degrees-per-second around the Y-axis.
    *

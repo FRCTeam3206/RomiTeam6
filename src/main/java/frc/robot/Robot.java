@@ -96,6 +96,19 @@ public class Robot extends TimedRobot {
   // initial state of the robot (each state will have a specicfic function like
   // state 1 will drive forward)
   float state = 0;
+  //scanning for blue block
+  public void turnaround(){
+    if (m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
+    13.5/2){
+      m_drivetrain.tankDrive(0.5, -0.5);
+    }
+    if (m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
+      13.5){
+      m_drivetrain.tankDrive(-0.5, 0.5);
+
+    }
+  }
+
 
   @Override
   public void autonomousPeriodic() {
@@ -107,21 +120,25 @@ public class Robot extends TimedRobot {
       case kDefaultAuto:
       default:
         // Put defult auto code here
-        // driving straight
-
-        if (m_drivetrain.getLeftDistanceInch() <= 72) {
-          // driving straight (you can fix the drift of the romi by adjusting the left or
+ // driving straight (you can fix the drift of the romi by adjusting the left or
           // right wheel wheel speed)
+        if (state == 0 && m_drivetrain.getLeftDistanceInch() <= 72) {
           m_drivetrain.tankDrive(1, 1);
-
         }
 
-        /*
-         * if (m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
-         * 13.5){
-         * m_drivetrain.tankDrive(0.5, -0.5);
-         * }
-         */
+      //turning 180
+         if (state == 1 && m_drivetrain.getLeftDistanceInch() - m_drivetrain.getRightDistanceInch()<
+         13.5){
+         m_drivetrain.tankDrive(0.5, -0.5);
+         }
+//scanning for blue block
+//(state ===2 && vision does not detect blue block){...}
+         if (state ==2){
+           //calibrate gyro
+           turnaround();
+
+         }
+        
         break;
     }
   }
