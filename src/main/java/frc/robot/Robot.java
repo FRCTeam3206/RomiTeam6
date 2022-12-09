@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
   private GenericHID controller = new GenericHID(0);
   private Servo servo1 = new Servo(2);
   private Servo servo2 = new Servo(2);
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -109,15 +110,15 @@ public class Robot extends TimedRobot {
     } else {
       servo1.set(0);
     }
-    boolean button_pressed2 = controller.getRawButton(2);
-    //System.out.println(button_pressed);
+
     if (button_pressed) {
       servo2.set(1);
     } else {
       servo2.set(0);
     }
-  }
-  }
+    
+    }
+
 
   /** This function is called once when the robot is disabled. */
   @Override
