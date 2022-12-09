@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,7 +27,7 @@ public class Robot extends TimedRobot {
   // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
   private Servo servo1 = new Servo(2);
-  private Servo servo2 = new Servo(2);
+  private Servo servo2 = new Servo(3);
 
   /**
    * This function is run when the robot is first started up and should be used for any
