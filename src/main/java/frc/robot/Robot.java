@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
   // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
   private Servo servo1 = new Servo(2);
-  private Servo servo2 = new Servo(3);
+  // private Servo servo2 = new Servo(1);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -103,18 +103,19 @@ public class Robot extends TimedRobot {
     m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed/1.5);
 
     boolean button_pressed = controller.getRawButton(1);
-    //System.out.println(button_pressed);
+    System.out.println(button_pressed);
     if (button_pressed) {
       servo1.set(1);
     } else {
       servo1.set(0);
     }
 
-    if (button_pressed) {
-      servo2.set(1);
-    } else {
-      servo2.set(0);
-    }
+    // if (button_pressed) {
+    //   servo2.set(1);
+    // } else {
+    //   servo2.set(0);
+    // }
+    
     
     }
 
