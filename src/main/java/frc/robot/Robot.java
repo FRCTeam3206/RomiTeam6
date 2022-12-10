@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
        }
       
        if (step == 1){
-        while(m_drivetrain.getLeftDistanceInch()<= -3){
+        while(m_drivetrain.getLeftDistanceInch()>= -1){
           m_drivetrain.tankDrive(-.5, -.5);
         }
         step = 2;
@@ -106,7 +106,7 @@ public class Robot extends TimedRobot {
        }
 
        if (step == 2){
-        while(m_drivetrain.getLeftDistanceInch()<= 4){
+        while(m_drivetrain.getLeftDistanceInch()<= 0){
           m_drivetrain.tankDrive(.5, .5);
         }
         //move servos to pos. 3
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
 
        }
        if (step == 3){
-        while(m_drivetrain.getLeftDistanceInch()<= 9){
+        while(m_drivetrain.getLeftDistanceInch()>= -5){
           m_drivetrain.tankDrive(-.5, -.5);
         }
         //move servos to pos. 3
@@ -147,7 +147,7 @@ public class Robot extends TimedRobot {
     // The getRawAxis method allows one to get the value an axis is on
     // We use axis to get stuff from the joysticks, as it is easy to represent a joystick
     // like a coordinate grid, which allows us to just extract the x or y axis information from it.dsas
-
+    System.out.println(m_drivetrain.getLeftDistanceInch());
     double forwardSpeed = -controller.getRawAxis(1);
     double turnSpeed = -controller.getRawAxis(0);
     if(controller.getRawButtonPressed(2)==true){
