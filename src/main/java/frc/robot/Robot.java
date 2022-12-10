@@ -89,6 +89,7 @@ public class Robot extends TimedRobot {
       default:
 
       if (step == 0){
+        m_drivetrain.resetEncoders();
         while(m_drivetrain.getLeftDistanceInch()<= 1){
           m_drivetrain.tankDrive(.5, .5);
         }
@@ -121,6 +122,13 @@ public class Robot extends TimedRobot {
         //move servos to pos. 3
         step = 4;
         System.out.println(step);
+       }
+
+       if (step == 4){
+        while (m_drivetrain.getRightDistanceInch()<4.42){
+        m_drivetrain.tankDrive(0, -0.5);
+        }
+        step = 5;
        }
       
       
