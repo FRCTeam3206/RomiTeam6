@@ -4,19 +4,20 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.CameraServerJNI;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.cameraserver.CameraServer;
-
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
@@ -25,18 +26,25 @@ public class Robot extends TimedRobot {
 
   private final RomiDrivetrain m_drivetrain = new RomiDrivetrain();
 
+  Servo servo = new Servo(2);
+  CameraServerJNI crte_cam = new CameraServerJNI();
+  //UsbCamera camera = new UsbCamera();
+
   // This line creates a new controller object, which we can use to get inputs from said controller/joystick.
   private GenericHID controller = new GenericHID(0);
-  private Servo servo1 = new Servo(2);
+
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.getNumber("X", 0);
   }
 
   /**
@@ -67,27 +75,70 @@ public class Robot extends TimedRobot {
 
     m_drivetrain.resetEncoders();
   }
-  public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-  }
+
+  public double step = 0;
+
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
-
         break;
       case kDefaultAuto:
       default:
-       // Put defult auto code here
-       break;
+
+      if (step == 0){
+        while(m_drivetrain.getLeftDistanceInch()<= 1){
+          m_drivetrain.tankDrive(.5, .5);
         }
-  }
+        // move servos to pos.2
+        step = 1;
+        System.out.println(step);
+       }
+      
+       if (step == 1){
+        while(m_drivetrain.getLeftDistanceInch()<= -3){
+          m_drivetrain.tankDrive(-.5, -.5);
+        }
+        step = 2;
+        System.out.println(step);
+       }
 
-  /** This function is called once when teleop is enabled. */
+       if (step == 2){
+        while(m_drivetrain.getLeftDistanceInch()<= 4){
+          m_drivetrain.tankDrive(.5, .5);
+        }
+        //move servos to pos. 3
+        step = 3;
+        System.out.println(step);
+
+       }
+       if (step == 3){
+        while(m_drivetrain.getLeftDistanceInch()<= 9){
+          m_drivetrain.tankDrive(-.5, -.5);
+        }
+        //move servos to pos. 3
+        step = 4;
+        System.out.println(step);
+       }
+      
+      
+
+
+      
+          
+        
+      }
+    }
+  
+
+  /** This function is called once when teleop is enable. */
   @Override
-  public void teleopInit() {}
-
+  public void teleopInit() {
+    servo.set(.5);
+  }
+  
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
@@ -95,21 +146,22 @@ public class Robot extends TimedRobot {
 
     // The getRawAxis method allows one to get the value an axis is on
     // We use axis to get stuff from the joysticks, as it is easy to represent a joystick
-    // like a coordinate grid, which allows us to just extract the x or y axis information from it.
+    // like a coordinate grid, which allows us to just extract the x or y axis information from it.dsas
+
     double forwardSpeed = -controller.getRawAxis(1);
     double turnSpeed = -controller.getRawAxis(0);
-
-    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
-
-    boolean button_pressed = controller.getRawButton(1);
-    //System.out.println(button_pressed);
-    if (button_pressed) {
-      servo1.set(1);
-    } else {
-      servo1.set(0);
+    if(controller.getRawButtonPressed(2)==true){
+      servo.set(1);
     }
+    if(controller.getRawButtonPressed(1)==true){
+      servo.set(0);
+    }
+    
+    
+    
+    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed);
   }
-
+ 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {}
