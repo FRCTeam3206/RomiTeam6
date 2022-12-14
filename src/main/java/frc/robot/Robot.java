@@ -104,23 +104,34 @@ public class Robot extends TimedRobot {
     m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed/1.5);
 
     boolean button_pressed = controller.getRawButton(1);
-    System.out.println(button_pressed);
-    
-    if (button_pressed) {
-      servo1.set(1);
-    } else {
-      servo1.set(0);
-    }
+    boolean button_pressed2 = controller.getRawButton(2);
+    boolean button_pressed3 = controller.getRawButton(3);
 
+    System.out.println(button_pressed);
+    //left (servo 1)
+    if (button_pressed) { 
+      servo1.set(0);
+    } else {
+      servo1.set(1);
+    }
+//right (servo 2)
     if (button_pressed) {
       servo2.set(1);
     } else {
       servo2.set(0);
     }
-    
-    
-    }
 
+    if (button_pressed2) {
+    servo1.set();
+    servo2.set();   
+  } 
+
+
+    if (button_pressed3) {
+    servo1.set();
+    servo2.set();    
+}
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
