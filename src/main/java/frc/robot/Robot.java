@@ -101,21 +101,21 @@ public class Robot extends TimedRobot {
     double forwardSpeed = -controller.getRawAxis(1);
     double turnSpeed = -controller.getRawAxis(0);
 
-    m_drivetrain.arcadeDrive(forwardSpeed, turnSpeed/1.5);
+    m_drivetrain.arcadeDrive(forwardSpeed/1.5, turnSpeed/2);
 
     boolean button_pressed = controller.getRawButton(1);
     System.out.println(button_pressed);
     
     if (button_pressed) {
-      servo1.set(1);
-    } else {
       servo1.set(0);
+    }else {
+      servo1.set(.2);
     }
 
     if (button_pressed) {
       servo2.set(1);
     } else {
-      servo2.set(0);
+      servo2.set(.8);
     }
     
     
