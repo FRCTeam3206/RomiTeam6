@@ -112,15 +112,31 @@ public class Robot extends TimedRobot {
       servo1.set(.2);
     }
 
+    System.out.println(button_pressed);
+    //left (servo 1)
+    if (button_pressed) { 
+      servo1.set(0);
+    } else {
+      servo1.set(1);
+    }
+//right (servo 2)
     if (button_pressed) {
       servo2.set(1);
     } else {
       servo2.set(.8);
     }
-    
-    
-    }
 
+    if (button_pressed2) {
+    servo1.set();
+    servo2.set();   
+  } 
+
+
+    if (button_pressed3) {
+    servo1.set();
+    servo2.set();    
+}
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
